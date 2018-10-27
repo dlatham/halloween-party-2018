@@ -3,8 +3,8 @@
  *  Enable 2 motion sensors to set off 2 separate waves of effects
  */
 
-const int motion1 = 4;
-const int motion2 = 5;
+const int motion1 = A0;
+const int motion2 = A1;
 const int relay1 = 6;
 const int relay2 = 7;
 const int relay3 = 8;
@@ -18,14 +18,16 @@ int effects[4][4] = {{motion1, relay1, 1000, 1000},  //Sound effect #1
                     {motion2, relay2, 1000, 1000},  //Sound effect #2
                     {motion1, relay3, 0, 5000},     //Fog machine
                     {motion2, relay4, 1000, 1000}}; //Open effect
+int motionTrigger1 = 600;                           //The analog signal trigger for motion1 sensor
+int motionTrigger2 = 600;
 
 
 void setup() {
   Serial.begin(9600);
   Serial.println("Spookiness starting up...");
   //Pin setup
-  pinMode(motion1, INPUT_PULLUP);
-  pinMode(motion2, INPUT_PULLUP);
+  pinMode(motion1, INPUT);
+  pinMode(motion2, INPUT);
   pinMode(relay1, OUTPUT);
   digitalWrite(relay1, HIGH);
   pinMode(relay2, OUTPUT);
@@ -53,7 +55,7 @@ void setup() {
 }
 
 void loop() {
-  if(motion1==LOW){
+  if(analogRead(motion1)>motionTrigger1){
     now = millis();
     Serial.print("Motion sensor 1 triggered at "); Serial.println(now);
     while((millis()-now) < maxtime1){
@@ -67,7 +69,7 @@ void loop() {
       }
     }
   }
-  if(motion2==LOW){
+  if(analogRead(motion2)>motionTrigger2){
     Serial.print("Motion sensor 2 triggered at "); Serial.println(now);
     now = millis();
     while((millis()-now) < maxtime2){
