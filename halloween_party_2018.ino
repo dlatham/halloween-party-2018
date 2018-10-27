@@ -5,18 +5,18 @@
 
 const int motion1 = A0;
 const int motion2 = A1;
-const int relay1 = 6;
-const int relay2 = 7;
-const int relay3 = 8;
-const int relay4 = 9;
+const int relay1 = 4;
+const int relay2 = 5;
+const int relay3 = 6;
+const int relay4 = 7;
 long now = 0;
 int maxtime1 = 0;
 int maxtime2 = 0;
 
 // TIMING CONFIGURATIONS {Motion detector trigger, relay, delay after trigger, time on}
-int effects[4][4] = {{motion1, relay1, 1000, 1000},  //Sound effect #1
-                    {motion2, relay2, 1000, 1000},  //Sound effect #2
-                    {motion1, relay3, 0, 5000},     //Fog machine
+int effects[4][4] = {{motion1, relay1, 0, 5000},  //Fog Machine
+                    {motion1, relay2, 2000, 3000},  //Sound effect #1
+                    {motion2, relay3, 0, 5000},     //Sound effect #2
                     {motion2, relay4, 1000, 1000}}; //Open effect
 int motionTrigger1 = 600;                           //The analog signal trigger for motion1 sensor
 int motionTrigger2 = 600;
@@ -62,7 +62,7 @@ void loop() {
       for(int x=0; x<4; x++){
         if((effects[x][0]==motion1)&&((millis()-now)>effects[x][2])&&((millis()-now)<effects[x][3])){  //If the timer is greater than the delay but less than the time on
           digitalWrite(effects[x][1], LOW);
-          Serial.print("Relay "); Serial.print(effects[x][2]); Serial.print(" triggered after "); Serial.print((millis()-now)); Serial.println("ms");
+          Serial.print("Relay "); Serial.print(effects[x][1]); Serial.print(" triggered after "); Serial.print((millis()-now)); Serial.println("ms");
         } else {
           digitalWrite(effects[x][1], HIGH);
         }
@@ -76,11 +76,13 @@ void loop() {
       for(int x=0; x<4; x++){
         if((effects[x][0]==motion2)&&((millis()-now)>effects[x][2])&&((millis()-now)<effects[x][3])){  //If the timer is greater than the delay but less than the time on
           digitalWrite(effects[x][1], LOW);
-          Serial.print("Relay "); Serial.print(effects[x][2]); Serial.print(" triggered after "); Serial.print((millis()-now)); Serial.println("ms");
+          //Serial.print("Relay "); Serial.print(effects[x][2]); Serial.print(" triggered after "); Serial.print((millis()-now)); Serial.println("ms");
         } else {
           digitalWrite(effects[x][1], HIGH);
         }
       }
     }
   }
+  Serial.println(analogRead(motion1));
+  delay(500);
 }
