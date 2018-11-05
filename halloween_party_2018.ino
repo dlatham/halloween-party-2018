@@ -14,10 +14,10 @@ int maxtime1 = 0;
 int maxtime2 = 0;
 
 // TIMING CONFIGURATIONS {Motion detector trigger, relay, delay after trigger, time on}
-int effects[4][4] = {{motion1, relay1, 0, 5000},  //Fog Machine
+int effects[4][4] = {{motion1, relay1, 0, 10000},  //Fog Machine
                     {motion1, relay2, 2000, 3000},  //Sound effect #1
-                    {motion2, relay3, 0, 5000},     //Sound effect #2
-                    {motion2, relay4, 1000, 1000}}; //Open effect
+                    {motion1, relay2, 10000, 11000},     //Sound effect #2
+                    {motion1, relay4, 12000, 20000}}; //Strobe
 int motionTrigger1 = 600;                           //The analog signal trigger for motion1 sensor
 int motionTrigger2 = 600;
 
